@@ -8,6 +8,7 @@ const Train = mongoose.model('Train', TrainSchema);
 export const addTrains = (req, res) => {
     console.log(req.body);
     // have a switch case go through different departure places
+    // main train selector page https://m.njtransit.com/mo/mo_servlet.srv?hdnPageAction=DvTo
     // ie. hamilton is https://dv.njtransit.com/webdisplay/tid-mobile.aspx?sid=HL
     // ie. penn station is https://dv.njtransit.com/webdisplay/tid-mobile.aspx?sid=NY
     // once decided on the link, use cheerio to scrape that data. then save it to the db.
