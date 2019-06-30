@@ -11,7 +11,6 @@ export const addTrains = (req, res) => {
     // ie. hamilton is https://dv.njtransit.com/webdisplay/tid-mobile.aspx?sid=HL
     // ie. penn station is https://dv.njtransit.com/webdisplay/tid-mobile.aspx?sid=NY
     // once decided on the link, use cheerio to scrape that data. then save it to the db.
-
     let url = ''
     if (req.body.train === 'hamilton') {
         url = 'https://dv.njtransit.com/webdisplay/tid-mobile.aspx?sid=HL';
