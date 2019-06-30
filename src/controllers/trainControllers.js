@@ -1,13 +1,11 @@
 import mongoose from 'mongoose';
 import { TrainSchema } from '../models/trainModel';
-// var cheerio = require("cheerio");
-// var axios = require("axios");
 import cheerio from 'cheerio';
 import axios from 'axios'
 
 const Train = mongoose.model('Train', TrainSchema);
 
-export const getTrains = (req, res) => {
+export const addTrains = (req, res) => {
     console.log(req.body);
     // have a switch case go through different departure places
     // ie. hamilton is https://dv.njtransit.com/webdisplay/tid-mobile.aspx?sid=HL
@@ -20,7 +18,7 @@ export const getTrains = (req, res) => {
         console.log('ayo we got hamilton');
     }
 
-    console.log(url);
+    // console.log(url);
     // get train page, loop over table rows and use cheerio to scrape this data from the table. put the data into an array of objects, and add to db.
     axios.get(url).then(function (response) {
         // console.log(response.data);
@@ -65,16 +63,42 @@ export const getTrains = (req, res) => {
                     }
                 });
                 const newTrain = new Train(newTrainObject);
+                Train.remove({ }, (err, train) => {
+                    if (err) {
+                        res.send(err);
+                    }
+                    console.log('Successfully deleted train');
+                })
                 newTrain.save((err, train) => {
                     if (err) {
                         return res.status(400).send({
                             message: err
                         });
                     } else {
-                        return console.log(train);
+                        res.json({ message: 'Successfully added train'});
                     }
                 })
             }
         }); 
     });
+}
+
+
+export const getTrains = (req, res) => {
+    Train.find({}, (err, train) => {
+        if (err) {
+            res.send(err);
+        }
+        res.json(train);
+    }).sort({ $natural: 1 }).limit(10);
+};
+
+
+export const deleteTrains = (req, res) => {
+    Train.remove({ }, (err, train) => {
+        if (err) {
+            res.send(err);
+        }
+        res.json({ message: 'Successfully deleted train'});
+    })
 }

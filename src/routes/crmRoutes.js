@@ -6,7 +6,7 @@ import {
     deleteContact 
 } from '../controllers/crmController';
 import { login, register, loginRequired } from '../controllers/userControllers';
-import { getTrains } from '../controllers/trainControllers';
+import { addTrains, getTrains, deleteTrains } from '../controllers/trainControllers';
 
 const routes = (app) => {
     app.route('/contact')
@@ -40,7 +40,9 @@ const routes = (app) => {
 
     // train route
     app.route('/api/train')
-        .post(getTrains);
+        .get(getTrains)
+        .post(addTrains)
+        .delete(deleteTrains);
 }
 
 export default routes;
