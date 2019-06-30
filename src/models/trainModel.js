@@ -16,10 +16,9 @@ export const TrainSchema = new Schema({
         type: String
     },
     trainNumber: {
-        type: Number
+        type: String
     },
     status: {
-       type: Date,
-       default: Date.now 
+       type: String
     }
 });
