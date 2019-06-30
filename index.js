@@ -6,11 +6,12 @@ import User from './src/models/userModel';
 import routes from './src/routes/crmRoutes';
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 3000;
 
 // mongoose connection
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://localhost/nj-transit-train-schedule', {
+var MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost/nj-transit-train-schedule';
+mongoose.connect(MONGODB_URI, {
     useMongoClient: true
 });
 
