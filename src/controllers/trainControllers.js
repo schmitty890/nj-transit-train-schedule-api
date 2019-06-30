@@ -2,21 +2,79 @@ import mongoose from 'mongoose';
 import { TrainSchema } from '../models/trainModel';
 // var cheerio = require("cheerio");
 // var axios = require("axios");
+import cheerio from 'cheerio';
+import axios from 'axios'
 
 const Train = mongoose.model('Train', TrainSchema);
 
 export const getTrains = (req, res) => {
-    const newTrain = new Train(req.body);
-    // console.log(req.body);
-    console.log(newTrain);
-    // save req.body to db
-    newTrain.save((err, train) => {
-        if (err) {
-            return res.status(400).send({
-                message: err
-            });
-        } else {
-            return res.json(train);
-        }
-    })
+    console.log(req.body);
+    // have a switch case go through different departure places
+    // ie. hamilton is https://dv.njtransit.com/webdisplay/tid-mobile.aspx?sid=HL
+    // ie. penn station is https://dv.njtransit.com/webdisplay/tid-mobile.aspx?sid=NY
+    // once decided on the link, use cheerio to scrape that data. then save it to the db.
+
+    let url = ''
+    if (req.body.train === 'hamilton') {
+        url = 'https://dv.njtransit.com/webdisplay/tid-mobile.aspx?sid=HL';
+        console.log('ayo we got hamilton');
+    }
+
+    console.log(url);
+    // get train page, loop over table rows and use cheerio to scrape this data from the table. put the data into an array of objects, and add to db.
+    axios.get(url).then(function (response) {
+        // console.log(response.data);
+        var $ = cheerio.load(response.data);
+
+        var result = { trains: [] };
+        $("tbody").find("tr").each(function (i, element) {
+            var newTrainObject = {
+                departure: '',
+                destination: '',
+                track: '',
+                line: '',
+                trainNumber: '',
+                status: ''
+            }
+
+            if (i % 2) { // if i is odd hack. was getting duplicate arrays here.
+                var trainArray = $(element).text().trim().split("\n");
+                trainArray.forEach(function (trainInfo, index) {
+                    switch (index) {
+                        case 0:
+                            newTrainObject.departure = trainInfo;
+                            break;
+                        case 1:
+                            // newTrainObject.destination = trainInfo;
+                            break;
+                        case 2:
+                            newTrainObject.destination = trainInfo;
+                            break;
+                        case 3:
+                            newTrainObject.track = trainInfo;
+                            break;
+                        case 4:
+                            newTrainObject.line = trainInfo;
+                            break;
+                        case 5:
+                            newTrainObject.trainNumber = trainInfo;
+                            break;
+                        case 6:
+                            newTrainObject.status = trainInfo;
+                            break;
+                    }
+                });
+                const newTrain = new Train(newTrainObject);
+                newTrain.save((err, train) => {
+                    if (err) {
+                        return res.status(400).send({
+                            message: err
+                        });
+                    } else {
+                        return console.log(train);
+                    }
+                })
+            }
+        }); 
+    });
 }
