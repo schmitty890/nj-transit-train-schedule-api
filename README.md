@@ -1,3 +1,14 @@
+This is a project I thought of to create an api out of the new jersey transit train schedule.
+
+
+This api lives at https://nj-transit-train-schedule-api.herokuapp.com/
+
+Endpoints
+GET `/api/train`
+POST `/api/train`
+DELETE `/api/train`
+
+
 register new user with post request to /auth/register
 ![register new user with post request to /auth/register ](https://user-images.githubusercontent.com/16051859/60389586-51376b80-9a92-11e9-9e70-a013e4bba674.png)
 
