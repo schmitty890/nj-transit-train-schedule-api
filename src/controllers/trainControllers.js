@@ -63,12 +63,12 @@ export const addTrains = (req, res) => {
                     }
                 });
                 const newTrain = new Train(newTrainObject);
-                Train.remove({ }, (err, train) => {
-                    if (err) {
-                        res.send(err);
-                    }
-                    console.log('Successfully deleted train');
-                })
+                // Train.remove({ }, (err, train) => {
+                //     if (err) {
+                //         res.send(err);
+                //     }
+                //     console.log('Successfully deleted train');
+                // })
                 newTrain.save((err, train) => {
                     if (err) {
                         return res.status(400).send({
