@@ -4,8 +4,10 @@ import bodyParser from 'body-parser';
 import jsonwebtoken from 'jsonwebtoken';
 import User from './src/models/userModel';
 import routes from './src/routes/crmRoutes';
+import cors from 'cors';
 
 const app = express();
+app.use(cors());
 const PORT = process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 3001;
 
 // mongoose connection
