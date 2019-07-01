@@ -6,7 +6,7 @@ import User from './src/models/userModel';
 import routes from './src/routes/crmRoutes';
 
 const app = express();
-const PORT = process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 3000;
+const PORT = process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 3001;
 
 // mongoose connection
 mongoose.Promise = global.Promise;

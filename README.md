@@ -1,4 +1,4 @@
-This is a project I thought of to create an api out of the new jersey transit train schedule.
+The api for new jersey transit train schedule.
 
 
 This api lives at https://nj-transit-train-schedule-api.herokuapp.com/
