@@ -69,11 +69,12 @@ export const addTrains = (req, res) => {
                             message: err
                         });
                     } else {
-                        res.json({ message: 'Successfully added train'});
+                        console.log({ message: 'Successfully added train'});
                     }
                 })
             }
-        }); 
+        });
+        res.json({ message: 'Successfully added train'});
     });
 }
 
