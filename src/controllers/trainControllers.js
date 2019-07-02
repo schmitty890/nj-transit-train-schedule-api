@@ -63,19 +63,13 @@ export const addTrains = (req, res) => {
                     }
                 });
                 const newTrain = new Train(newTrainObject);
-                // Train.remove({ }, (err, train) => {
-                //     if (err) {
-                //         res.send(err);
-                //     }
-                //     console.log('Successfully deleted train');
-                // })
                 newTrain.save((err, train) => {
                     if (err) {
                         return res.status(400).send({
                             message: err
                         });
                     } else {
-                        console.log({ message: 'Successfully added train'});
+                        res.json({ message: 'Successfully added train'});
                     }
                 })
             }
@@ -87,9 +81,9 @@ export const addTrains = (req, res) => {
 export const getTrains = (req, res) => {
     Train.find({}, (err, train) => {
         if (err) {
-            console.log(err);
+            res.send(err);
         }
-        console.log(train);
+        res.json(train);
     }).sort({ $natural: 1 }).limit(10);
 };
 
@@ -97,8 +91,8 @@ export const getTrains = (req, res) => {
 export const deleteTrains = (req, res) => {
     Train.remove({ }, (err, train) => {
         if (err) {
-            console.log(err);
+            res.send(err);
         }
-        console.log({ message: 'Successfully deleted train'});
+        res.json({ message: 'Successfully deleted train'});
     })
 }
