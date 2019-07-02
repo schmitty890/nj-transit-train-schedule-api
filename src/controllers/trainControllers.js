@@ -75,7 +75,7 @@ export const addTrains = (req, res) => {
                             message: err
                         });
                     } else {
-                        res.json({ message: 'Successfully added train'});
+                        console.log({ message: 'Successfully added train'});
                     }
                 })
             }
@@ -87,9 +87,9 @@ export const addTrains = (req, res) => {
 export const getTrains = (req, res) => {
     Train.find({}, (err, train) => {
         if (err) {
-            res.send(err);
+            console.log(err);
         }
-        res.json(train);
+        console.log(train);
     }).sort({ $natural: 1 }).limit(10);
 };
 
@@ -97,8 +97,8 @@ export const getTrains = (req, res) => {
 export const deleteTrains = (req, res) => {
     Train.remove({ }, (err, train) => {
         if (err) {
-            res.send(err);
+            console.log(err);
         }
-        res.json({ message: 'Successfully deleted train'});
+        console.log({ message: 'Successfully deleted train'});
     })
 }
