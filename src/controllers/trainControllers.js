@@ -21,6 +21,12 @@ export const addTrains = (req, res) => {
     // console.log(url);
     // get train page, loop over table rows and use cheerio to scrape this data from the table. put the data into an array of objects, and add to db.
     axios.get(url).then(function (response) {
+        Train.remove({ }, (err, train) => {
+            if (err) {
+                res.send(err);
+            }
+            console.log({ message: 'Successfully deleted train'});
+        })
         // console.log(response.data);
         var $ = cheerio.load(response.data);
 
@@ -85,7 +91,7 @@ export const getTrains = (req, res) => {
             res.send(err);
         }
         res.json(train);
-    }).sort({ $natural: 1 }).limit(10);
+    }).sort({ $natural: 1 }).limit(20);
 };
 
 
