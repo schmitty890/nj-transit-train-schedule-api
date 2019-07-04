@@ -6,6 +6,7 @@ import axios from 'axios'
 const Train = mongoose.model('Train', TrainSchema);
 
 export const addTrains = (req, res) => {
+    console.log('addTrains');
     console.log(req.body);
     // have a switch case go through different departure places
     // main train selector page https://m.njtransit.com/mo/mo_servlet.srv?hdnPageAction=DvTo
@@ -13,9 +14,10 @@ export const addTrains = (req, res) => {
     // ie. penn station is https://dv.njtransit.com/webdisplay/tid-mobile.aspx?sid=NY
     // once decided on the link, use cheerio to scrape that data. then save it to the db.
     let url = ''
+    url = 'hamilton'; // hardcoding this for now
     if (req.body.train === 'hamilton') {
         url = 'https://dv.njtransit.com/webdisplay/tid-mobile.aspx?sid=HL';
-        console.log('ayo we got hamilton');
+        console.log('we got hamilton url');
     }
 
     // console.log(url);
