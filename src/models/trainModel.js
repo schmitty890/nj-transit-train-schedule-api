@@ -22,3 +22,25 @@ export const TrainSchema = new Schema({
        type: String
     }
 });
+
+
+export const TrainDetailsSchema = new Schema({
+    departure: {
+        type: String
+    },
+    destination: {
+        type: String
+    },
+    track: {
+        type: String
+    },
+    line: {
+        type: String
+    },
+    trainNumber: {
+        type: String
+    },
+    status: {
+       type: String
+    }
+});
