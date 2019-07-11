@@ -205,8 +205,13 @@ export const addCurrentStation = (req, res) => {
     
     console.log('new station object!');
     console.log(newStationObject.station);
-    if(newStationObject.station === 'hamilton') {
-        newStationObject.zip = '08619';
+    switch(newStationObject.station) {
+        case 'hamilton':
+            newStationObject.zip = '08619';
+            break;
+        case 'nyp':
+            newStationObject.zip = '10119';
+            break;
     }
     const newStation = new TrainCurrentStation(newStationObject);
     newStation.save((err, trainStation) => {
