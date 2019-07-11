@@ -7,7 +7,7 @@ import {
 } from '../controllers/crmController';
 import { login, register, loginRequired } from '../controllers/userControllers';
 import { addTrains, getTrains, deleteTrains, addTrainDetails, addCurrentStation, getCurrentTrainStation } from '../controllers/trainControllers';
-import { forecast } from '../controllers/weatherControllers';
+import { forecast, currentWeather } from '../controllers/weatherControllers';
 
 const routes = (app) => {
     app.route('/contact')
@@ -57,6 +57,10 @@ const routes = (app) => {
     // weather forecast
     app.route('/api/weather-forecast/:zip')
         .get(forecast);
+
+    // weather current
+    app.route('/api/weather-current/:zip')
+        .get(currentWeather);
 }
 
 export default routes;
