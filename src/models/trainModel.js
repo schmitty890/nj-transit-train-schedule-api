@@ -44,3 +44,13 @@ export const TrainDetailsSchema = new Schema({
        type: String
     }
 });
+
+
+export const TrainCurrentStationSchema = new Schema({
+    station: {
+        type: String
+    },
+    zip: {
+        type: String
+    }
+});

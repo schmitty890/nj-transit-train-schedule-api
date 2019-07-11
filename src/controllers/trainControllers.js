@@ -1,10 +1,11 @@
 import mongoose from 'mongoose';
-import { TrainSchema, TrainDetailsSchema } from '../models/trainModel';
+import { TrainSchema, TrainDetailsSchema, TrainCurrentStationSchema } from '../models/trainModel';
 import cheerio from 'cheerio';
 import axios from 'axios'
 
 const Train = mongoose.model('Train', TrainSchema);
 const TrainDetails = mongoose.model('TrainDetails', TrainDetailsSchema);
+const TrainCurrentStation = mongoose.model('TrainCurrentStation', TrainCurrentStationSchema);
 
 export const addTrains = (req, res) => {
     console.log('addTrains');
@@ -188,3 +189,42 @@ export const deleteTrains = (req, res) => {
         res.json({ message: 'Successfully deleted train'});
     })
 }
+
+
+export const addCurrentStation = (req, res) => {
+    console.log('addCurrentStation');
+    console.log(req.body);
+    TrainCurrentStation.remove({ }, (err, train) => {
+        if (err) {
+            res.send(err);
+        }
+        console.log({ message: 'Successfully deleted stations'});
+    })
+
+    var newStationObject = req.body;
+    
+    console.log('new station object!');
+    console.log(newStationObject.station);
+    if(newStationObject.station === 'hamilton') {
+        newStationObject.zip = '08619';
+    }
+    const newStation = new TrainCurrentStation(newStationObject);
+    newStation.save((err, trainStation) => {
+        if (err) {
+            return res.status(400).send({
+                message: err
+            });
+        } else {
+            console.log({ message: 'Successfully added station location'});
+        }
+    })
+}
+
+export const getCurrentTrainStation = (req, res) => {
+    TrainCurrentStation.find({}, (err, trainStation) => {
+        if (err) {
+            res.send(err);
+        }
+        res.json(trainStation);
+    });
+};
