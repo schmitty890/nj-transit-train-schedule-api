@@ -106,68 +106,46 @@ export const addTrainDetails = (req, res) => {
     console.log(url);
     // here loop over https://dv.njtransit.com/webdisplay/train_stops.aspx?train=${req.body.train.trainNumber} url and use cheerio to scrape the data and save it to the db, then we call the db to get the data to post it to the client.
     // get train page, loop over table rows and use cheerio to scrape this data from the table. put the data into an array of objects, and add to db.
-    // axios.get(url).then(function (response) {
-    //     Train.remove({ }, (err, train) => {
-    //         if (err) {
-    //             res.send(err);
-    //         }
-    //         console.log({ message: 'Successfully deleted train'});
-    //     })
-    //     // console.log(response.data);
-    //     var $ = cheerio.load(response.data);
+    
+    axios.get(url).then(function (response) {
+        TrainDetails.remove({ }, (err, train) => {
+            if (err) {
+                res.send(err);
+            }
+            console.log({ message: 'Successfully deleted train details'});
+        })
+        // console.log(response.data);
+        var $ = cheerio.load(response.data);
 
-    //     var result = { trains: [] };
-    //     $("tbody").find("tr").each(function (i, element) {
-    //         var newTrainObject = {
-    //             departure: '',
-    //             destination: '',
-    //             track: '',
-    //             line: '',
-    //             trainNumber: '',
-    //             status: ''
-    //         }
-
-    //         if (i % 2) { // if i is odd hack. was getting duplicate arrays here.
-    //             var trainArray = $(element).text().trim().split("\n");
-    //             trainArray.forEach(function (trainInfo, index) {
-    //                 switch (index) {
-    //                     case 0:
-    //                         newTrainObject.departure = trainInfo;
-    //                         break;
-    //                     case 1:
-    //                         // newTrainObject.destination = trainInfo;
-    //                         break;
-    //                     case 2:
-    //                         newTrainObject.destination = trainInfo;
-    //                         break;
-    //                     case 3:
-    //                         newTrainObject.track = trainInfo;
-    //                         break;
-    //                     case 4:
-    //                         newTrainObject.line = trainInfo;
-    //                         break;
-    //                     case 5:
-    //                         newTrainObject.trainNumber = trainInfo;
-    //                         break;
-    //                     case 6:
-    //                         newTrainObject.status = trainInfo;
-    //                         break;
-    //                 }
-    //             });
-    //             const newTrain = new Train(newTrainObject);
-    //             newTrain.save((err, train) => {
-    //                 if (err) {
-    //                     return res.status(400).send({
-    //                         message: err
-    //                     });
-    //                 } else {
-    //                     console.log({ message: 'Successfully added train'});
-    //                 }
-    //             })
-    //         }
-    //     });
-    //     res.json({ message: 'Successfully added train'});
-    // });
+        // console.log($);
+        var trainDetails = [];    
+        $("tbody").find("tr").each(function (i, element) {
+            var newTrainObject = {
+                stationAndStatus: $(element).text().trim()
+            }
+            // console.log($(element).text().trim());
+            
+            const newTrainDetails = new TrainDetails(newTrainObject);
+            newTrainDetails.save((err, train) => {
+                if (err) {
+                    return res.status(400).send({
+                        message: err
+                    });
+                } else {
+                    // console.log(newTrainDetails.stationAndStatus);
+                    trainDetails.push(newTrainDetails.stationAndStatus);
+                    console.log({ message: 'Successfully added train details'});
+                }
+            })
+        });
+        // console.log('---------train details----------');
+        setTimeout(() => {
+            console.log(trainDetails);
+            res.json({ trainDetails: trainDetails});
+        }, 500);
+        
+        // res.json({ message: 'Successfully added train details'});
+    });
 }
 
 
