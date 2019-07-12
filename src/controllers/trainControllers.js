@@ -126,6 +126,7 @@ export const addTrainDetails = (req, res) => {
             // console.log($(element).text().trim());
             
             const newTrainDetails = new TrainDetails(newTrainObject);
+            trainDetails.push(newTrainDetails.stationAndStatus);
             newTrainDetails.save((err, train) => {
                 if (err) {
                     return res.status(400).send({
@@ -133,7 +134,7 @@ export const addTrainDetails = (req, res) => {
                     });
                 } else {
                     // console.log(newTrainDetails.stationAndStatus);
-                    trainDetails.push(newTrainDetails.stationAndStatus);
+                    
                     console.log({ message: 'Successfully added train details'});
                 }
             })
