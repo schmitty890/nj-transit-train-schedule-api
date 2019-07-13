@@ -37,7 +37,8 @@ export const addTrains = (req, res) => {
         // console.log(response.data);
         var $ = cheerio.load(response.data);
 
-        var result = { trains: [] };
+        // var result = { trains: [] };
+        var trains = [];
         $("tbody").find("tr").each(function (i, element) {
             var newTrainObject = {
                 departure: '',
@@ -76,6 +77,7 @@ export const addTrains = (req, res) => {
                     }
                 });
                 const newTrain = new Train(newTrainObject);
+                trains.push(newTrain);
                 newTrain.save((err, train) => {
                     if (err) {
                         return res.status(400).send({
@@ -87,7 +89,11 @@ export const addTrains = (req, res) => {
                 })
             }
         });
-        res.json({ message: 'Successfully added train'});
+        setTimeout(() => {
+            console.log(trains);
+            res.json({ trains: trains});
+        }, 500);
+        // res.json({ message: 'Successfully added train'});
     });
 }
 
@@ -118,7 +124,7 @@ export const addTrainDetails = (req, res) => {
         var $ = cheerio.load(response.data);
 
         // console.log($);
-        var trainDetails = [];    
+        var trainDetails = [];
         $("tbody").find("tr").each(function (i, element) {
             var newTrainObject = {
                 stationAndStatus: $(element).text().trim()
