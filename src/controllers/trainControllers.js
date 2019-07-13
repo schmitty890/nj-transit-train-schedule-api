@@ -17,13 +17,7 @@ export const addTrains = (req, res) => {
     // once decided on the link, use cheerio to scrape that data. then save it to the db.
     let url = ''
     // url = 'hamilton'; // hardcoding this for now
-    if (req.body.train === 'hamilton') {
-        url = 'https://dv.njtransit.com/webdisplay/tid-mobile.aspx?sid=HL';
-        console.log('we got hamilton url');
-    } else if (req.body.train === 'nyp') {
-        url = 'https://dv.njtransit.com/webdisplay/tid-mobile.aspx?sid=NY';
-        console.log('we got nyp url');
-    }
+    url = `https://dv.njtransit.com/webdisplay/tid-mobile.aspx?sid=${req.body.train}`;
 
     // console.log(url);
     // get train page, loop over table rows and use cheerio to scrape this data from the table. put the data into an array of objects, and add to db.
@@ -191,11 +185,13 @@ export const addCurrentStation = (req, res) => {
     console.log('new station object!');
     console.log(newStationObject.station);
     switch(newStationObject.station) {
-        case 'hamilton':
+        case 'HL':
             newStationObject.zip = '08619';
+            newStationObject.station = 'Hamilton';
             break;
-        case 'nyp':
+        case 'NY':
             newStationObject.zip = '10119';
+            newStationObject.station = 'New York Penn Station';
             break;
     }
     const newStation = new TrainCurrentStation(newStationObject);
