@@ -11,7 +11,7 @@ const SearchedTrain = mongoose.model('SearchedTrain', SearchedTrainSchema);
 
 export const addTrains = (req, res) => {
     console.log('addTrains');
-    console.log(req.body);
+    // console.log(req.body);
     // have a switch case go through different departure places
     // main train selector page https://m.njtransit.com/mo/mo_servlet.srv?hdnPageAction=DvTo
     // ie. hamilton is https://dv.njtransit.com/webdisplay/tid-mobile.aspx?sid=HL
@@ -86,7 +86,7 @@ export const addTrains = (req, res) => {
             }
         });
         setTimeout(() => {
-            console.log(trains);
+            // console.log(trains);
             res.json({ trains: trains});
         }, 500);
         // res.json({ message: 'Successfully added train'});
@@ -96,7 +96,7 @@ export const addTrains = (req, res) => {
 
 export const addTrainDetails = (req, res) => {
     console.log('addTrains');
-    console.log(req.body);
+    // console.log(req.body);
     // have a switch case go through different departure places
     // main train selector page https://m.njtransit.com/mo/mo_servlet.srv?hdnPageAction=DvTo
     // ie. hamilton is https://dv.njtransit.com/webdisplay/tid-mobile.aspx?sid=HL
@@ -125,7 +125,6 @@ export const addTrainDetails = (req, res) => {
             var newTrainObject = {
                 stationAndStatus: $(element).text().trim()
             }
-            // console.log($(element).text().trim());
             
             const newTrainDetails = new TrainDetails(newTrainObject);
             trainDetails.push(newTrainDetails.stationAndStatus);
@@ -136,17 +135,15 @@ export const addTrainDetails = (req, res) => {
                     });
                 } else {
                     // console.log(newTrainDetails.stationAndStatus);
-                    
                     console.log({ message: 'Successfully added train details'});
                 }
             })
         });
         // console.log('---------train details----------');
         setTimeout(() => {
-            console.log(trainDetails);
+            // console.log(trainDetails);
             res.json({ trainDetails: trainDetails});
         }, 500);
-        
         // res.json({ message: 'Successfully added train details'});
     });
 }
@@ -228,7 +225,7 @@ export const getSearchedTrain = (req, res) => {
 
 export const addSearchedTrain = (req, res) => {
     console.log('searchedTrain');
-    console.log(req.body);
+    // console.log(req.body);
 
     var newSearchedObject = req.body;
     const newSearch = new SearchedTrain(newSearchedObject);
@@ -240,9 +237,7 @@ export const addSearchedTrain = (req, res) => {
         } else {
             console.log({ message: 'Successfully added searched train number'});
             let url = `https://dv.njtransit.com/webdisplay/train_stops.aspx?train=${req.body.trainNumber}`;
-
-
-            console.log(url);
+            // console.log(url);
             // here loop over https://dv.njtransit.com/webdisplay/train_stops.aspx?train=${req.body.train.trainNumber} url and use cheerio to scrape the data and save it to the db, then we call the db to get the data to post it to the client.
             // get train page, loop over table rows and use cheerio to scrape this data from the table. put the data into an array of objects, and add to db.
             
@@ -262,8 +257,6 @@ export const addSearchedTrain = (req, res) => {
                     var newTrainObject = {
                         stationAndStatus: $(element).text().trim()
                     }
-                    // console.log($(element).text().trim());
-                    
                     const newTrainDetails = new TrainDetails(newTrainObject);
                     trainDetails.push(newTrainDetails.stationAndStatus);
                     newTrainDetails.save((err, train) => {
@@ -272,19 +265,15 @@ export const addSearchedTrain = (req, res) => {
                                 message: err
                             });
                         } else {
-                            // console.log(newTrainDetails.stationAndStatus);
-                            
                             console.log({ message: 'Successfully added train details'});
                         }
                     })
                 });
                 // console.log('---------train details----------');
                 setTimeout(() => {
-                    console.log(trainDetails);
+                    // console.log(trainDetails);
                     res.json({ trainDetails: trainDetails});
                 }, 500);
-                
-                // res.json({ message: 'Successfully added train details'});
             });
         }
     })
