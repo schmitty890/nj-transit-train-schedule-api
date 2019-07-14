@@ -220,7 +220,7 @@ export const getSearchedTrain = (req, res) => {
             res.send(err);
         }
         res.json(trainStation);
-    }).sort({ $natural: -1 }).limit(10);;
+    }).sort({ $natural: -1 }).limit(10);
 };
 
 export const addSearchedTrain = (req, res) => {
