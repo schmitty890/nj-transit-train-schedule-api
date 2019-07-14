@@ -239,6 +239,53 @@ export const addSearchedTrain = (req, res) => {
             });
         } else {
             console.log({ message: 'Successfully added searched train number'});
+            let url = `https://dv.njtransit.com/webdisplay/train_stops.aspx?train=${req.body.trainNumber}`;
+
+
+            console.log(url);
+            // here loop over https://dv.njtransit.com/webdisplay/train_stops.aspx?train=${req.body.train.trainNumber} url and use cheerio to scrape the data and save it to the db, then we call the db to get the data to post it to the client.
+            // get train page, loop over table rows and use cheerio to scrape this data from the table. put the data into an array of objects, and add to db.
+            
+            axios.get(url).then(function (response) {
+                TrainDetails.remove({ }, (err, train) => {
+                    if (err) {
+                        res.send(err);
+                    }
+                    console.log({ message: 'Successfully deleted train details'});
+                })
+                // console.log(response.data);
+                var $ = cheerio.load(response.data);
+        
+                // console.log($);
+                var trainDetails = [];
+                $("tbody").find("tr").each(function (i, element) {
+                    var newTrainObject = {
+                        stationAndStatus: $(element).text().trim()
+                    }
+                    // console.log($(element).text().trim());
+                    
+                    const newTrainDetails = new TrainDetails(newTrainObject);
+                    trainDetails.push(newTrainDetails.stationAndStatus);
+                    newTrainDetails.save((err, train) => {
+                        if (err) {
+                            return res.status(400).send({
+                                message: err
+                            });
+                        } else {
+                            // console.log(newTrainDetails.stationAndStatus);
+                            
+                            console.log({ message: 'Successfully added train details'});
+                        }
+                    })
+                });
+                // console.log('---------train details----------');
+                setTimeout(() => {
+                    console.log(trainDetails);
+                    res.json({ trainDetails: trainDetails});
+                }, 500);
+                
+                // res.json({ message: 'Successfully added train details'});
+            });
         }
     })
 }
