@@ -39,3 +39,9 @@ export const TrainCurrentStationSchema = new Schema({
         type: String
     }
 });
+
+export const SearchedTrainSchema = new Schema({
+    trainNumber: {
+        type: String
+    }
+});

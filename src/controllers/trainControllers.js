@@ -1,11 +1,13 @@
 import mongoose from 'mongoose';
-import { TrainSchema, TrainDetailsSchema, TrainCurrentStationSchema } from '../models/trainModel';
+import { TrainSchema, TrainDetailsSchema, TrainCurrentStationSchema, SearchedTrainSchema } from '../models/trainModel';
 import cheerio from 'cheerio';
 import axios from 'axios'
 
 const Train = mongoose.model('Train', TrainSchema);
 const TrainDetails = mongoose.model('TrainDetails', TrainDetailsSchema);
 const TrainCurrentStation = mongoose.model('TrainCurrentStation', TrainCurrentStationSchema);
+const SearchedTrain = mongoose.model('SearchedTrain', SearchedTrainSchema);
+
 
 export const addTrains = (req, res) => {
     console.log('addTrains');
@@ -214,3 +216,29 @@ export const getCurrentTrainStation = (req, res) => {
         res.json(trainStation);
     });
 };
+
+export const getSearchedTrain = (req, res) => {
+    SearchedTrain.find({}, (err, trainStation) => {
+        if (err) {
+            res.send(err);
+        }
+        res.json(trainStation);
+    });
+};
+
+export const addSearchedTrain = (req, res) => {
+    console.log('searchedTrain');
+    console.log(req.body);
+
+    var newSearchedObject = req.body;
+    const newSearch = new SearchedTrain(newSearchedObject);
+    newSearch.save((err, trainNumber) => {
+        if (err) {
+            return res.status(400).send({
+                message: err
+            });
+        } else {
+            console.log({ message: 'Successfully added searched train number'});
+        }
+    })
+}

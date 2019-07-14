@@ -6,7 +6,7 @@ import {
     deleteContact 
 } from '../controllers/crmController';
 import { login, register, loginRequired } from '../controllers/userControllers';
-import { addTrains, getTrains, deleteTrains, addTrainDetails, addCurrentStation, getCurrentTrainStation } from '../controllers/trainControllers';
+import { addTrains, getTrains, deleteTrains, addTrainDetails, addCurrentStation, getCurrentTrainStation, getSearchedTrain, addSearchedTrain } from '../controllers/trainControllers';
 import { forecast, currentWeather } from '../controllers/weatherControllers';
 
 const routes = (app) => {
@@ -53,6 +53,11 @@ const routes = (app) => {
     app.route('/api/train-current-station')
         .get(getCurrentTrainStation)
         .post(addCurrentStation);
+
+    // train current station
+    app.route('/api/search-train')
+        .get(getSearchedTrain)
+        .post(addSearchedTrain);
 
     // weather forecast
     app.route('/api/weather-forecast/:zip')
