@@ -192,6 +192,34 @@ export const addCurrentStation = (req, res) => {
             newStationObject.zip = '10119';
             newStationObject.station = 'New York Penn Station';
             break;
+        case 'AM':
+            newStationObject.zip = '07747';
+            newStationObject.station = 'Aberdeen-Matawan';
+            break;
+        case 'AB':
+            newStationObject.zip = '08201';
+            newStationObject.station = 'Absecon';
+            break;
+        case 'AZ':
+            newStationObject.zip = '07401';
+            newStationObject.station = 'Allendale';
+            break;
+        case 'AP':
+            newStationObject.zip = '07712';
+            newStationObject.station = 'Asbury Park';
+            break;
+        case 'AO':
+            newStationObject.zip = '08004';
+            newStationObject.station = 'Atco';
+            break;
+        case 'AC':
+            newStationObject.zip = '08401';
+            newStationObject.station = 'Atlantic City';
+            break;
+        case 'AV':
+            newStationObject.zip = '07001';
+            newStationObject.station = 'Avenel';
+            break;
     }
     const newStation = new TrainCurrentStation(newStationObject);
     newStation.save((err, trainStation) => {
